@@ -5,7 +5,11 @@ async function addLetter(letter) {
     return db('letters').where('id', id).first();
 }
 
+async function deleteLetter(id) {
+    const letter = await db('letters').where('id', id).first();
+    await db('letters').where('id', id).del();
+    return letter;
+}
 
 
-
-module.exports = { addLetter };
+module.exports = { addLetter, deleteLetter };

@@ -49,9 +49,16 @@ describe('lettersModel functions', () => {
             const [id] = await db('letters').insert(letterD);
             let letter = await db('letters').where({ id }).first();
             expect(letter).toBeTruthy();
-            await request(server).delete('/letters' + id);
+            await request(server).delete('/letters/'+ id);
             letter = await db('letters').where({ id }).first();
             expect(letter).toBeFalsy();
+            
+        });
+
+        test('respond with deleted letter', async () => {
+            await db('letters').insert(letterD);
+            let letter = await request(server).delete('/letters/1');
+            expect(letter.body).toMatchObject(letterD);
         });
     });
 });
